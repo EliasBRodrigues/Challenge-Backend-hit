@@ -18,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.starwarsplanet.Planet.model.Planet;
 import com.starwarsplanet.Planet.model.Planet.CreatePlanet;
+import com.starwarsplanet.Planet.model.Planet.UpdatePlanet;
 import com.starwarsplanet.Planet.service.PlanetService;
 
 import jakarta.validation.Valid;
@@ -56,16 +57,16 @@ public class PlanetController {
         return ResponseEntity.created(uri).build();
     }
 
-    @PutMapping("/")
-    //@Validated(UpdatePlanet.class)
-    // public ResponseEntity<Planet> updatePlanet(@Valid @RequestBody Planet planet, @PathVariable Long id){
-    //     planet.setId(id);
-    //     this.planetService.updatePlanet(planet);
-    //     return ResponseEntity.noContent().build();
-    // }
-    public Planet updatePlanet(@RequestBody Planet planet){
-        return planetService.updatePlanet(planet);
+    @PutMapping("/{id}")
+    @Validated(UpdatePlanet.class)
+    public ResponseEntity<Void> updatePlanet(@Valid @RequestBody Planet planet, @PathVariable Long id){
+        planet.setId(id);
+        this.planetService.updatePlanet(planet);
+        return ResponseEntity.noContent().build();
     }
+    // public Planet updatePlanet(@RequestBody Planet planet){
+    //     return planetService.updatePlanet(planet);
+    // }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
